@@ -1,0 +1,9 @@
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\bin\Debug\IDE.exe.config
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\bin\Debug\IDE.exe
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\bin\Debug\IDE.pdb
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.Form1.resources
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.Properties.Resources.resources
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.exe
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.pdb
