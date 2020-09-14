@@ -14,7 +14,13 @@ namespace IDE
 {
     public partial class Form1 : Form
     {
+        private string[] tokensFinales;
+        private string[] tokens;
+        private int contadorTokens;
+        private Boolean comillas = false;
+        private Boolean comentario = false;
         ManejadorArchivos manejadorArchivos = new ManejadorArchivos();
+        Automata analizarAutomata = new Automata();
         public Form1()
         {
             InitializeComponent();
@@ -46,7 +52,7 @@ namespace IDE
                 fileContent = manejadorArchivos.cargarArchivo(filePath);
                 rtbCodigo.Text = fileContent;
                 MessageBox.Show("Proyecto cargado correctamente");
-                this.Text = "IDE - Mencode "+openFileDialog1.FileName;
+                this.Text = "IDE - Mencode " + openFileDialog1.FileName;
             }
         }
 
@@ -98,6 +104,168 @@ namespace IDE
         private void button2_Click(object sender, EventArgs e)
         {
             GuardarToolStripMenuItem.PerformClick();
+        }
+
+        private void compilarToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!rtbCodigo.Text.Equals(""))
+                {
+                    generarTokens(rtbCodigo.Text);
+                }
+                else
+                {
+                    MessageBox.Show("El codigo esta vacio o no es valido");
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("El codigo introducido no es valido");
+            }
+        }
+
+        private void generarTokens(String codigo)
+        {
+            tokensFinales = new string[codigo.Length];
+            char tokenPorAnalizar;
+            String tokenGenerado = "";
+            for (int i = 0; i < codigo.Length; i++)
+            {
+                tokenPorAnalizar = codigo[i];
+                switch (tokenPorAnalizar)
+                {
+                    case ' ':
+                    case '\r':
+                    case '\t':
+                    case '\b':
+                    case '\f':
+                        if (!tokenGenerado.Equals(" "))
+                        {
+                            if ((comillas == true) || (comentario = true))
+                            {
+                                tokenGenerado += tokenPorAnalizar;
+                            }
+                            else
+                            {
+                                ingresarToken(tokenGenerado);
+                                ingresarToken("ESPACIO");
+                                tokenGenerado = "";
+                            }
+                        }
+                        else
+                        {
+                            ingresarToken(tokenGenerado);
+                            ingresarToken("ESPACIO");
+                            tokenGenerado = "";
+                        }
+
+                        break;
+                    case '\n':
+                        if (!tokenGenerado.Equals(" "))
+                        {
+                            if ((comillas == true) || (comentario = true))
+                            {
+                                tokenGenerado += tokenPorAnalizar;
+                            }
+                            else
+                            {
+                                ingresarToken(tokenGenerado);
+                                ingresarToken("ENTER");
+                                tokenGenerado = "";
+                            }
+                        }
+                        else
+                        {
+                            ingresarToken(tokenGenerado);
+                            ingresarToken("ENTER");
+                            tokenGenerado = "";
+                        }
+
+                        break;
+                    case '+':
+                    case '-':
+                    case '*':
+                    case '<':
+                    case '>':
+                    case '!':
+                    case '=':
+                    case '(':
+                    case ')':
+                    case ';':
+                        if (!tokenGenerado.Equals(""))
+                            ingresarToken(tokenGenerado);
+                        ingresarToken(tokenPorAnalizar.ToString());
+                        tokenGenerado = "";
+                        break;
+                    case '"':
+                        if (comillas == false)
+                        {
+                            if (!tokenGenerado.Equals(""))
+                            {
+                                ingresarToken(tokenGenerado);
+                                tokenGenerado = "";
+                            }
+                            tokenGenerado += tokenPorAnalizar;
+                            comillas = true;
+                        }
+                        else
+                        {
+                            tokenGenerado += tokenPorAnalizar;
+                            ingresarToken(tokenGenerado);
+                            tokenGenerado = "";
+                            comillas = false;
+                        }
+                        break;
+                    default:
+                        tokenGenerado += tokenPorAnalizar;
+                        break;
+                }
+            }
+            ingresarToken(tokenGenerado);
+            vaciarArray();
+            rtbCodigo.Text = "";
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                //analizarAutomata.AnalizarTokens(tokensFinales[i]);
+                if (tokens[i].Equals("ESPACIO"))
+                {
+                    rtbCodigo.SelectionColor = Color.Red;
+                    rtbCodigo.AppendText(" ");
+                }
+                else if (tokens[i].Equals("ENTER"))
+                {
+                    rtbCodigo.SelectionColor = Color.Red;
+                    rtbCodigo.AppendText(Environment.NewLine + "");
+                }
+                else
+                {
+                    rtbCodigo.SelectionColor = Color.Red;
+                    rtbCodigo.AppendText(tokens[i]);
+                }
+
+            }
+
+        }
+
+        public void ingresarToken(String token)
+        {
+            tokensFinales[contadorTokens] = token;
+            contadorTokens++;
+        }
+
+        public void vaciarArray()
+        {
+            tokens = new string[contadorTokens];
+            for (int i = 0; i < contadorTokens; i++)
+            {
+                tokens[i] = tokensFinales[i];
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            compilarToolStripMenuItem1.PerformClick();
         }
     }
 }

@@ -44,6 +44,8 @@
             this.lightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,8 +54,6 @@
             this.rtbCodigo = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
@@ -158,15 +158,16 @@
             this.compilarToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.compilarToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.compilarToolStripMenuItem1.Name = "compilarToolStripMenuItem1";
-            this.compilarToolStripMenuItem1.Size = new System.Drawing.Size(129, 22);
+            this.compilarToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.compilarToolStripMenuItem1.Text = "Compilar";
+            this.compilarToolStripMenuItem1.Click += new System.EventHandler(this.compilarToolStripMenuItem1_Click);
             // 
             // reiniciarToolStripMenuItem
             // 
             this.reiniciarToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.reiniciarToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.reiniciarToolStripMenuItem.Name = "reiniciarToolStripMenuItem";
-            this.reiniciarToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.reiniciarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.reiniciarToolStripMenuItem.Text = "Reiniciar";
             // 
             // temaToolStripMenuItem
@@ -184,7 +185,7 @@
             this.darkToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.darkToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.darkToolStripMenuItem.Name = "darkToolStripMenuItem";
-            this.darkToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.darkToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.darkToolStripMenuItem.Text = "Dark";
             // 
             // lightToolStripMenuItem
@@ -192,7 +193,7 @@
             this.lightToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.lightToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.lightToolStripMenuItem.Name = "lightToolStripMenuItem";
-            this.lightToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.lightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.lightToolStripMenuItem.Text = "Light";
             // 
             // panel1
@@ -216,6 +217,43 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(764, 36);
             this.panel2.TabIndex = 3;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Transparent;
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button2.Image = global::IDE.Properties.Resources.save;
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(96, 4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(30, 29);
+            this.button2.TabIndex = 1;
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button1.Image = global::IDE.Properties.Resources.compilarIcono;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(148, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(59, 33);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Iniciar";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // panel3
             // 
@@ -287,42 +325,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.Image = global::IDE.Properties.Resources.compilarIcono;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(148, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(59, 33);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Iniciar";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button2.Image = global::IDE.Properties.Resources.save;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(96, 4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(30, 29);
-            this.button2.TabIndex = 1;
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // richTextBox1
             // 
