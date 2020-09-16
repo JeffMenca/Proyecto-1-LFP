@@ -24,17 +24,6 @@ namespace IDE
         {
             InitializeComponent();
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void guardarProeyctoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         //Metodo para abrir un archivo
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -49,7 +38,9 @@ namespace IDE
                 //Ruta del archivo
                 filePath = openFileDialog1.FileName;
                 fileContent = manejadorArchivos.cargarArchivo(filePath);
-                rtbCodigo.Text = fileContent;
+                rtbCodigo.Clear();
+                rtbCodigo.SelectionColor = Color.White;
+                rtbCodigo.AppendText(fileContent);
                 MessageBox.Show("Proyecto cargado correctamente");
                 this.Text = "IDE - Mencode " + openFileDialog1.FileName;
             }
@@ -98,7 +89,6 @@ namespace IDE
                 MessageBox.Show("Proyecto guardado correctamente");
                 this.Text = "IDE - Mencode " + openFileDialog1.FileName;
             }
-
         }
         //Guardar el archivo con otro boton
         private void button2_Click(object sender, EventArgs e)
@@ -149,34 +139,41 @@ namespace IDE
                         rtbCodigo.SelectionColor = Color.Orchid;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
-                        rtbCodigo.SelectionColor = Color.White;
                         break;
                     case "Decimal":
                         rtbCodigo.SelectionColor = Color.LightBlue;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
-                        rtbCodigo.SelectionColor = Color.White;
                         break;
                     case "Texto":
                         rtbCodigo.SelectionColor = Color.LightGray;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
-                        rtbCodigo.SelectionColor = Color.White;
                         break;
                     case "Booleano":
                         rtbCodigo.SelectionColor = Color.Orange;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
-                        rtbCodigo.SelectionColor = Color.White;
                         break;
                     case "Error":
-                        rtbCodigo.SelectionColor = Color.Yellow;
-                        rtbCodigo.AppendText(tokenmostrar.getToken());
-                        rtbErrores.AppendText(contadorErrores+". Error en caracter: " + tokenmostrar.getToken());
-                        contadorErrores++;
-                        rtbCodigo.AppendText(" ");
-                        rtbErrores.AppendText(Environment.NewLine);
-                        rtbCodigo.SelectionColor = Color.White;
+                        if ((tokenmostrar.getToken().Equals("SI")) || (tokenmostrar.getToken().Equals("SINO"))
+                            || (tokenmostrar.getToken().Equals("SINO_SI")) || (tokenmostrar.getToken().Equals("MIENTRAS"))
+                            || (tokenmostrar.getToken().Equals("HACER")) || (tokenmostrar.getToken().Equals("DESDE"))
+                            || (tokenmostrar.getToken().Equals("HASTA")) || (tokenmostrar.getToken().Equals("INCREMENTO")))
+                        {
+                            rtbCodigo.SelectionColor = Color.Lime;
+                            rtbCodigo.AppendText(tokenmostrar.getToken());
+                            rtbCodigo.AppendText(" ");
+                        }
+                        else
+                        {
+                            rtbCodigo.SelectionColor = Color.Yellow;
+                            rtbCodigo.AppendText(tokenmostrar.getToken());
+                            rtbErrores.AppendText(contadorErrores + ". Error en caracter: " + tokenmostrar.getToken());
+                            contadorErrores++;
+                            rtbCodigo.AppendText(" ");
+                            rtbErrores.AppendText(Environment.NewLine);
+                        }
                         break;
                     case "Enter":
                         rtbCodigo.SelectionColor = Color.White;
@@ -186,28 +183,25 @@ namespace IDE
                         rtbCodigo.SelectionColor = Color.Peru;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
-                        rtbCodigo.SelectionColor = Color.White;
                         break;
                     case "AsignacionFin":
                         rtbCodigo.SelectionColor = Color.Pink;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
-                        rtbCodigo.SelectionColor = Color.White;
                         break;
                     case "Comentario":
                         rtbCodigo.SelectionColor = Color.Red;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
-                        rtbCodigo.SelectionColor = Color.White;
                         break;
                     case "Operador Aritmetico":
                         rtbCodigo.SelectionColor = Color.Blue;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
-                        rtbCodigo.SelectionColor = Color.White;
                         break;
                 }
             }
+            rtbCodigo.SelectionColor = Color.White;
         }
         //Vacia los richTextBox para volver a ingresar todo
         private void reiniciarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -215,20 +209,57 @@ namespace IDE
             rtbCodigo.Clear();
             rtbErrores.Clear();
         }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        //Metodo para poner el modo oscuro
         private void darkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbCodigo.BackColor=Color.FromArgb(29, 28, 28);
+            rtbCodigo.BackColor = Color.FromArgb(29, 28, 28);
         }
-
+        //Metodo para poner el modo claro
         private void lightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             rtbCodigo.BackColor = Color.FromArgb(255, 255, 255);
+        }
+        //Metodo para obtener linea y columna cada vez que se presiona el richtextbox
+        private void rtbCodigo_Click(object sender, EventArgs e)
+        {
+            int posicion= rtbCodigo.SelectionStart;
+            int linea = rtbCodigo.GetLineFromCharIndex(posicion)+1;
+            int columna = posicion - rtbCodigo.GetFirstCharIndexOfCurrentLine()+1;
+            lbnumlinea.Text = linea.ToString();
+            lbnumColumna.Text = columna.ToString();
+        }
+        //Metodo para exportar errores
+        private void exportarErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Filtro del savefiledialog
+            saveFileDialog1.Filter = "gtE files (*.gtE)|*.gtE";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //Guarda el nuevo archivo
+                manejadorArchivos.crearArchivo(saveFileDialog1.OpenFile(), saveFileDialog1.FileName);
+                rtbErrores.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.PlainText);
+                MessageBox.Show("Archivo de errores exportado correctamente");
+            }
+        }
+        //Metodo para guardar todo desde otro boton
+        private void button3_Click(object sender, EventArgs e)
+        {
+            GuardarToolStripMenuItem.PerformClick();
+        }
+        //Metodo para guardar como desde otro boton
+        private void button4_Click(object sender, EventArgs e)
+        {
+            guardarComoToolStripMenuItem.PerformClick();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void rtbCodigo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            rtbCodigo.SelectionColor = Color.White;
         }
     }
 }

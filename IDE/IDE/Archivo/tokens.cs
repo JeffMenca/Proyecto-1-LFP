@@ -8,8 +8,7 @@ using IDE.Archivo;
 namespace IDE.Archivo
 {
     class tokens
-    {
-        
+    { 
         //Atributos
         public string Token;
         public string Tipo;

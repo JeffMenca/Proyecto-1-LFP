@@ -236,6 +236,7 @@ namespace IDE.Archivo
                             case '\r':
                             case '\t':
                             case '\b':
+                            case '\n':
                             case '\f':
                                 insertarTokens(tokenGenerado, getEstado());
                                 tokenGenerado = "";
@@ -260,11 +261,6 @@ namespace IDE.Archivo
                                 tokenGenerado = "";
                                 setEstado(0);
                                 break;
-                            case '\n':
-                                tokenGenerado += tokenPorAnalizar;
-                                setEstado(4);
-                                enterTexto = true;
-                                break;
                             default:
                                 insertarTokens(tokenGenerado, getEstado());
                                 tokenGenerado = "";
@@ -283,6 +279,11 @@ namespace IDE.Archivo
                                 insertarTokens(tokenGenerado, getEstado());
                                 tokenGenerado = "";
                                 setEstado(0);
+                                break;
+                            case '\n':
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(6);
+                                enterTexto = true;
                                 break;
                             default:
                                 if (i + 1 == codigo.Length)
@@ -642,6 +643,11 @@ namespace IDE.Archivo
                                 tokenGenerado += tokenPorAnalizar;
                                 setEstado(30);
                                 break;
+                            case '\n':
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(29);
+                                enterTexto = true;
+                                break;
                             default:
                                 if (i + 1 == codigo.Length)
                                 {
@@ -666,6 +672,11 @@ namespace IDE.Archivo
                                 insertarTokens(tokenGenerado, getEstado());
                                 tokenGenerado = "";
                                 setEstado(0);
+                                break;
+                            case '\n':
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(30);
+                                enterTexto = true;
                                 break;
                             default:
                                 if (i + 1 == codigo.Length)
@@ -1029,7 +1040,6 @@ namespace IDE.Archivo
                     listaTokens.Add(tokenNuevo);
                     break;
             }
-
         }
     }
 }

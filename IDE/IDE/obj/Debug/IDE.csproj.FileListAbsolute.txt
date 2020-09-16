@@ -7,3 +7,5 @@ C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP
 C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
 C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.exe
 C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.pdb
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\obj\Debug\IDE.SplashScreen.resources
+C:\Users\Jeffrey\Documents\Visual Studio 2012\Projects\Proyecto1LFP\Proyecto1LFP\IDE\IDE\bin\Debug\CircularProgressBar.dll
