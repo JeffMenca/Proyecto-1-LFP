@@ -15,9 +15,11 @@ namespace IDE
 {
     public partial class Form1 : Form
     {
+        //Variables 
         ManejadorArchivos manejadorArchivos = new ManejadorArchivos();
         Automata analizarAutomata = new Automata();
         ArrayList listaTokens = new ArrayList();
+        private int contadorErrores = 1;
         public Form1()
         {
             InitializeComponent();
@@ -64,7 +66,8 @@ namespace IDE
             }
             catch (Exception)
             {
-                MessageBox.Show("No ha cargado o creado un archivo");
+                //Crea un nuevp archivo
+                guardarComoToolStripMenuItem.PerformClick();
             }
         }
 
@@ -97,12 +100,12 @@ namespace IDE
             }
 
         }
-
+        //Guardar el archivo con otro boton
         private void button2_Click(object sender, EventArgs e)
         {
             GuardarToolStripMenuItem.PerformClick();
         }
-
+        //Compila el codigo, analiza y pinta
         private void compilarToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
@@ -110,57 +113,10 @@ namespace IDE
                 if (!rtbCodigo.Text.Equals(""))
                 {
                     listaTokens.Clear();
+                    //Carga la lista de los tokens validos
                     listaTokens = analizarAutomata.generarTokens(rtbCodigo.Text);
-                    rtbCodigo.Text = "";
-                    rtbErrores.Text = "";
-                    for (int i = 0; i < listaTokens.Count; i++)
-                    {
-                        tokens tokenmostrar =(tokens) listaTokens[i];
-                        switch (tokenmostrar.getTipo())
-                        {
-                            case "Entero":
-                                rtbCodigo.SelectionColor = Color.Orchid;
-                                rtbCodigo.AppendText(" ");
-                                rtbCodigo.AppendText(tokenmostrar.getToken());
-                                break;
-                            case "Decimal":
-                                rtbCodigo.SelectionColor = Color.LightBlue;
-                                rtbCodigo.AppendText(" ");
-                                rtbCodigo.AppendText(tokenmostrar.getToken());
-                                break;
-                            case "Texto":
-                                 rtbCodigo.SelectionColor = Color.LightGray;
-                                 rtbCodigo.AppendText(" ");
-                                 rtbCodigo.AppendText(tokenmostrar.getToken());
-                                break;
-                            case "Booleano":
-                                rtbCodigo.SelectionColor = Color.Orange;
-                                rtbCodigo.AppendText(" ");
-                                rtbCodigo.AppendText(tokenmostrar.getToken());
-                                break;
-                            case "Error":
-                                rtbCodigo.SelectionColor = Color.Yellow;
-                                rtbCodigo.AppendText(" ");
-                                rtbErrores.AppendText(Environment.NewLine);
-                                rtbCodigo.AppendText(tokenmostrar.getToken());
-                                rtbErrores.AppendText("Error en caracter: "+tokenmostrar.getToken());
-                                break;
-                            case "Enter":
-                                rtbCodigo.SelectionColor = Color.White;
-                                rtbCodigo.AppendText(Environment.NewLine);
-                                break;
-                            case "Caracter":
-                                rtbCodigo.SelectionColor = Color.Peru;
-                                rtbCodigo.AppendText(" ");
-                                rtbCodigo.AppendText(tokenmostrar.getToken());
-                                break;
-                            case "Operador Aritmetico":
-                                rtbCodigo.SelectionColor = Color.Blue;
-                                rtbCodigo.AppendText(" ");
-                                rtbCodigo.AppendText(tokenmostrar.getToken());
-                                break;
-                        }
-                    }
+                    //Compila
+                    compilar();
                 }
                 else
                 {
@@ -173,11 +129,106 @@ namespace IDE
             }
         }
 
-     
-
+        //Compilar con otro boton
         private void button1_Click(object sender, EventArgs e)
         {
             compilarToolStripMenuItem1.PerformClick();
+        }
+        //Compila el proyecto, general el token y analiza su tipo para asignarle un color
+        private void compilar()
+        {
+            rtbCodigo.Clear();
+            rtbErrores.Clear();
+            contadorErrores = 0;
+            for (int i = 0; i < listaTokens.Count; i++)
+            {
+                tokens tokenmostrar = (tokens)listaTokens[i];
+                switch (tokenmostrar.getTipo())
+                {
+                    case "Entero":
+                        rtbCodigo.SelectionColor = Color.Orchid;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                    case "Decimal":
+                        rtbCodigo.SelectionColor = Color.LightBlue;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                    case "Texto":
+                        rtbCodigo.SelectionColor = Color.LightGray;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                    case "Booleano":
+                        rtbCodigo.SelectionColor = Color.Orange;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                    case "Error":
+                        rtbCodigo.SelectionColor = Color.Yellow;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbErrores.AppendText(contadorErrores+". Error en caracter: " + tokenmostrar.getToken());
+                        contadorErrores++;
+                        rtbCodigo.AppendText(" ");
+                        rtbErrores.AppendText(Environment.NewLine);
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                    case "Enter":
+                        rtbCodigo.SelectionColor = Color.White;
+                        rtbCodigo.AppendText(Environment.NewLine);
+                        break;
+                    case "Caracter":
+                        rtbCodigo.SelectionColor = Color.Peru;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                    case "AsignacionFin":
+                        rtbCodigo.SelectionColor = Color.Pink;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                    case "Comentario":
+                        rtbCodigo.SelectionColor = Color.Red;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                    case "Operador Aritmetico":
+                        rtbCodigo.SelectionColor = Color.Blue;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        rtbCodigo.SelectionColor = Color.White;
+                        break;
+                }
+            }
+        }
+        //Vacia los richTextBox para volver a ingresar todo
+        private void reiniciarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rtbCodigo.Clear();
+            rtbErrores.Clear();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void darkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rtbCodigo.BackColor=Color.FromArgb(29, 28, 28);
+        }
+
+        private void lightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rtbCodigo.BackColor = Color.FromArgb(255, 255, 255);
         }
     }
 }

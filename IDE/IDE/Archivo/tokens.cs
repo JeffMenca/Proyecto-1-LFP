@@ -12,41 +12,23 @@ namespace IDE.Archivo
         
         //Atributos
         public string Token;
-        public string Color;
         public string Tipo;
-        public tokens(string token,string color,string tipo)
+        public tokens(string token,string tipo)
         {
             this.Token = token;
-            this.Color = color;
             this.Tipo = tipo;
         }
 
-        //Metodos Get y set
+        //Metodos Get 
+        //Devuelve el contenido del token
         public String getToken()
         {
             return this.Token;
         }
-        public void setToken(String token)
-        {
-            this.Token = token;
-        }
+        //Devuelve el tipo del token
         public String getTipo()
         {
             return this.Tipo;
         }
-        public void setTipo(String tipo)
-        {
-            this.Tipo = tipo;
-        }
-        public String getColor()
-        {
-            return this.Color;
-        }
-        public void setColor(String color)
-        {
-            this.Color = color;
-        }
-
-
     }
 }
