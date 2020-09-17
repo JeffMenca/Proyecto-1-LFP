@@ -10,8 +10,8 @@ namespace IDE.Archivo
     class tokens
     { 
         //Atributos
-        public string Token;
-        public string Tipo;
+        private string Token;
+        private string Tipo;
         public tokens(string token,string tipo)
         {
             this.Token = token;

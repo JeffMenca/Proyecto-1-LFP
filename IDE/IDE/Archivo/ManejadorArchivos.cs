@@ -43,7 +43,7 @@ namespace IDE.Archivo
             }
         }
         //Metodo para crear archivos
-        public void crearArchivo(Stream file,String path)
+        public void crearArchivo(Stream file, String path)
         {
             Stream myStream;
             try
@@ -61,8 +61,7 @@ namespace IDE.Archivo
             {
                 System.Windows.Forms.MessageBox.Show("El codigo esta vacio");
             }
-            
-        }
 
+        }
     }
 }

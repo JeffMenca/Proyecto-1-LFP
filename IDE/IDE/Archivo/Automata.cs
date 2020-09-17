@@ -223,8 +223,10 @@ namespace IDE.Archivo
                                 setEstado(3);
                                 break;
                             default:
-                                tokenGenerado += tokenPorAnalizar;
-                                setEstado(100);
+                                insertarTokens(tokenGenerado, getEstado());
+                                tokenGenerado = "";
+                                i = i - 1;
+                                setEstado(0);
                                 break;
                         }
                         break;
