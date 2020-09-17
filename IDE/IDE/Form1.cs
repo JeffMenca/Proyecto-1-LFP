@@ -1,4 +1,5 @@
-﻿using System;
+﻿//Librerias
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -100,6 +101,7 @@ namespace IDE
         {
             try
             {
+                //Analiza si el codigo esta vacio
                 if (!rtbCodigo.Text.Equals(""))
                 {
                     listaTokens.Clear();
@@ -132,9 +134,11 @@ namespace IDE
             contadorErrores = 0;
             for (int i = 0; i < listaTokens.Count; i++)
             {
+                //Genera un nuevo token para analizar la lista
                 tokens tokenmostrar = (tokens)listaTokens[i];
                 switch (tokenmostrar.getTipo())
                 {
+                    //Casos para pintar el codigo
                     case "Entero":
                         rtbCodigo.SelectionColor = Color.Orchid;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
@@ -156,6 +160,7 @@ namespace IDE
                         rtbCodigo.AppendText(" ");
                         break;
                     case "Error":
+                        //Analiza las palabras reservadas
                         if ((tokenmostrar.getToken().Equals("SI")) || (tokenmostrar.getToken().Equals("SINO"))
                             || (tokenmostrar.getToken().Equals("SINO_SI")) || (tokenmostrar.getToken().Equals("MIENTRAS"))
                             || (tokenmostrar.getToken().Equals("HACER")) || (tokenmostrar.getToken().Equals("DESDE"))
@@ -167,6 +172,7 @@ namespace IDE
                         }
                         else
                         {
+                            //Errores encontrados
                             rtbCodigo.SelectionColor = Color.Yellow;
                             rtbCodigo.AppendText(tokenmostrar.getToken());
                             rtbErrores.AppendText(contadorErrores + ". Error en caracter: " + tokenmostrar.getToken());
@@ -201,11 +207,13 @@ namespace IDE
                         break;
                 }
             }
+            //Reinicia el color del texto para seguir escribiendo
             rtbCodigo.SelectionColor = Color.White;
         }
         //Vacia los richTextBox para volver a ingresar todo
         private void reiniciarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Reinicia el codigo
             rtbCodigo.Clear();
             rtbErrores.Clear();
         }
@@ -222,9 +230,12 @@ namespace IDE
         //Metodo para obtener linea y columna cada vez que se presiona el richtextbox
         private void rtbCodigo_Click(object sender, EventArgs e)
         {
+            //Obtiene la posicion
             int posicion= rtbCodigo.SelectionStart;
+            //Obtiene linea y columna de la posicion
             int linea = rtbCodigo.GetLineFromCharIndex(posicion)+1;
             int columna = posicion - rtbCodigo.GetFirstCharIndexOfCurrentLine()+1;
+            //Imprime la linea y columna
             lbnumlinea.Text = linea.ToString();
             lbnumColumna.Text = columna.ToString();
         }
@@ -251,12 +262,12 @@ namespace IDE
         {
             guardarComoToolStripMenuItem.PerformClick();
         }
-
+        //Metodo que termina la app
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }
-
+        //Metodo que reinicia el color del codigo cada vez se edita el richtextbox
         private void rtbCodigo_KeyPress(object sender, KeyPressEventArgs e)
         {
             rtbCodigo.SelectionColor = Color.White;

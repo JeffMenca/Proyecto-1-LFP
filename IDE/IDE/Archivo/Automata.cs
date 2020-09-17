@@ -39,7 +39,7 @@ namespace IDE.Archivo
                 tokenPorAnalizar = codigo[i];
                 switch (estado)
                 {
-                    //Estado inicial
+                    //Estado inicial y sus casos
                     case 0:
                         switch (tokenPorAnalizar)
                         {
@@ -133,7 +133,7 @@ namespace IDE.Archivo
                                 break;
                         }
                         break;
-                    //Token de enteros
+                    //Token de numeros enteros
                     case 1:
                         switch (tokenPorAnalizar)
                         {
