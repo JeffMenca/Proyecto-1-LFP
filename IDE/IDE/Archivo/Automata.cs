@@ -12,7 +12,7 @@ namespace IDE.Archivo
     {
         //Variables de la clase
         private string[] tokens;
-        private int estado = 0;
+        private int estado = 0, columna=1,columnaAux=1, fila=1;
         private Boolean enterTexto = false;
         ArrayList listaTokens = new ArrayList();
 
@@ -31,11 +31,16 @@ namespace IDE.Archivo
         //Metodo para generar los tokens
         public ArrayList generarTokens(String codigo)
         {
+            columnaAux = 1;
+            columna = 1;
+            fila = 1;
             codigo += " ";
             char tokenPorAnalizar;
             String tokenGenerado = "";
             for (int i = 0; i < codigo.Length; i++)
             {
+                columna++;
+                columnaAux++;
                 tokenPorAnalizar = codigo[i];
                 switch (estado)
                 {
@@ -127,6 +132,10 @@ namespace IDE.Archivo
                                 tokenGenerado += tokenPorAnalizar;
                                 setEstado(39);
                                 break;
+                            case '_':
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(41);
+                                break;
                             default:
                                 tokenGenerado += tokenPorAnalizar;
                                 setEstado(10);
@@ -160,15 +169,32 @@ namespace IDE.Archivo
                                 tokenGenerado += tokenPorAnalizar;
                                 setEstado(1);
                                 break;
+                            case '+':
+                            case '-':
+                            case '*':
+                            case '/':
+                            case '!':
+                            case '>':
+                            case '<':
+                            case '=':
+                            case '|':
+                            case '&':
+                            case '(':
+                            case ')':
+                            case ';':
+                            case '"':
+                                insertarTokens(tokenGenerado, getEstado());
+                                tokenGenerado = "";
+                                i = i - 1;
+                                setEstado(0);
+                                break;
                             case '.':
                                 tokenGenerado += tokenPorAnalizar;
                                 setEstado(2);
                                 break;
                             default:
-                                insertarTokens(tokenGenerado, getEstado());
-                                tokenGenerado = "";
-                                i = i - 1;
-                                setEstado(0);
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(100);
                                 break;
                         }
                         break;
@@ -223,10 +249,8 @@ namespace IDE.Archivo
                                 setEstado(3);
                                 break;
                             default:
-                                insertarTokens(tokenGenerado, getEstado());
-                                tokenGenerado = "";
-                                i = i - 1;
-                                setEstado(0);
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(100);
                                 break;
                         }
                         break;
@@ -267,7 +291,6 @@ namespace IDE.Archivo
                                 insertarTokens(tokenGenerado, getEstado());
                                 tokenGenerado = "";
                                 i = i - 1;
-                                tokenGenerado += tokenPorAnalizar;
                                 setEstado(0);
                                 break;
                         }
@@ -457,9 +480,7 @@ namespace IDE.Archivo
 
                             case 'o':
                                 tokenGenerado += tokenPorAnalizar;
-                                insertarTokens(tokenGenerado, getEstado());
-                                tokenGenerado = "";
-                                setEstado(0);
+                                setEstado(40);
                                 break;
                             default:
                                 setEstado(100);
@@ -519,9 +540,7 @@ namespace IDE.Archivo
 
                             case 'o':
                                 tokenGenerado += tokenPorAnalizar;
-                                insertarTokens(tokenGenerado, getEstado());
-                                tokenGenerado = "";
-                                setEstado(0);
+                                setEstado(40);
                                 break;
                             default:
                                 setEstado(100);
@@ -929,6 +948,86 @@ namespace IDE.Archivo
                                 break;
                         }
                         break;
+                    //Token para verdadero
+                    case 40:
+                        switch (tokenPorAnalizar)
+                        {
+                            case ' ':
+                            case '\r':
+                            case '\t':
+                            case '\b':
+                            case '\f':
+                            case '\n':
+                                insertarTokens(tokenGenerado, getEstado());
+                                tokenGenerado = "";
+                                setEstado(0);
+                                break;
+                            case '+':
+                            case '-':
+                            case '*':
+                            case '/':
+                            case '!':
+                            case '>':
+                            case '<':
+                            case '=':
+                            case '|':
+                            case '&':
+                            case '(':
+                            case ')':
+                            case ';':
+                            case '"':
+                                insertarTokens(tokenGenerado, getEstado());
+                                tokenGenerado = "";
+                                i=i-1;
+                                setEstado(0);
+                                break;
+                            default:
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(100);
+                                break;
+                        }
+                        break;
+                    //Token para _ de ID
+                    case 41:
+                        switch (tokenPorAnalizar)
+                        {
+                            case ' ':
+                            case '\r':
+                            case '\t':
+                            case '\b':
+                            case '\f':
+                            case '\n':
+                                tokenGenerado += tokenPorAnalizar;
+                                insertarTokens(tokenGenerado, 100);
+                                tokenGenerado = "";
+                                setEstado(0);
+                                break;
+                            default:
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(42);
+                                break;
+                        }
+                        break;
+                    //Token para nombre de ID
+                    case 42:
+                        switch (tokenPorAnalizar)
+                        {
+                            case ' ':
+                            case '\r':
+                            case '\t':
+                            case '\b':
+                            case '\f':
+                            case '\n':
+                                insertarTokens(tokenGenerado, getEstado());
+                                tokenGenerado = "";
+                                setEstado(0);
+                                break;
+                            default:
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(42);
+                                break;
+                        }
+                        break;
                     //Token para errores
                     case 100:
                         switch (tokenPorAnalizar)
@@ -972,7 +1071,12 @@ namespace IDE.Archivo
                 }
                 //Detecta un salto de linea
                 if ((tokenPorAnalizar.Equals('\n') && (!enterTexto)))
+                {
                     insertarTokens(tokenPorAnalizar.ToString(), 99);
+                    fila++;
+                    columna = 0;
+                    columnaAux = 0;
+                }
                 else
                     enterTexto = false;
             }
@@ -984,6 +1088,7 @@ namespace IDE.Archivo
         public void insertarTokens(String token, int estadoActual)
         {
             //Nuevo token
+            
             tokens tokenNuevo;
             switch (estadoActual)
             {
@@ -1002,15 +1107,34 @@ namespace IDE.Archivo
                     break;
                 case 17:
                 case 21:
+                case 40:
+                case 42:
                     tokenNuevo = new tokens(token, "Booleano");
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 100:
-                    tokenNuevo = new tokens(token, "Error");
+                    if ((token.Equals("SI")) || (token.Equals("SINO")) || (token.Equals("SINO_SI")) || (token.Equals("MIENTRAS"))
+                            || (token.Equals("HACER")) || (token.Equals("DESDE") || (token.Equals("imprimir")) || (token.Equals("leer")))
+                            ||(token.Equals("HASTA")) || (token.Equals("PRINCIPAL"))
+                            ||(token.Equals("INCREMENTO")))
+                        tokenNuevo = new tokens(token, "Reservada", fila, (columna - columnaAux) + 1);
+                    else if (token.Equals("entero"))
+                        tokenNuevo = new tokens(token, "Entero", fila, (columna - columnaAux) + 1);
+                    else if (token.Equals("decimal"))
+                        tokenNuevo = new tokens(token, "Decimal", fila, (columna - columnaAux) + 1);
+                    else if (token.Equals("cadena"))
+                        tokenNuevo = new tokens(token, "Texto", fila, (columna - columnaAux) + 1);
+                    else if (token.Equals("booleano"))
+                        tokenNuevo = new tokens(token, "Booleano", fila, (columna - columnaAux) + 1);
+                    else if (token.Equals("caracter"))
+                        tokenNuevo = new tokens(token, "Caracter", fila, (columna - columnaAux) + 1);
+                    else
+                        tokenNuevo = new tokens(token, "Error", fila, (columna - columnaAux) + 1);
+                    
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 99:
-                    tokenNuevo = new tokens(token, "Enter");
+                    tokenNuevo = new tokens(token, "Entero");
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 10:
@@ -1042,6 +1166,7 @@ namespace IDE.Archivo
                     listaTokens.Add(tokenNuevo);
                     break;
             }
+            columnaAux = 0;
         }
     }
 }

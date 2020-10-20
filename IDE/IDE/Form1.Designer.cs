@@ -83,6 +83,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.rtbErrores = new System.Windows.Forms.RichTextBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -110,7 +111,8 @@
             this.nuevoToolStripMenuItem,
             this.abrirToolStripMenuItem,
             this.GuardarToolStripMenuItem,
-            this.guardarComoToolStripMenuItem});
+            this.guardarComoToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.archivoToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(63, 21);
@@ -185,7 +187,7 @@
             this.compilarToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.compilarToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.compilarToolStripMenuItem1.Name = "compilarToolStripMenuItem1";
-            this.compilarToolStripMenuItem1.Size = new System.Drawing.Size(129, 22);
+            this.compilarToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.compilarToolStripMenuItem1.Text = "Compilar";
             this.compilarToolStripMenuItem1.Click += new System.EventHandler(this.compilarToolStripMenuItem1_Click);
             // 
@@ -194,7 +196,7 @@
             this.reiniciarToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.reiniciarToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.reiniciarToolStripMenuItem.Name = "reiniciarToolStripMenuItem";
-            this.reiniciarToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.reiniciarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.reiniciarToolStripMenuItem.Text = "Reiniciar";
             this.reiniciarToolStripMenuItem.Click += new System.EventHandler(this.reiniciarToolStripMenuItem_Click);
             // 
@@ -663,6 +665,15 @@
             this.panel4.Size = new System.Drawing.Size(3, 110);
             this.panel4.TabIndex = 2;
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.toolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
+            this.toolStripMenuItem1.Text = "Eliminar";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -753,6 +764,7 @@
         private System.Windows.Forms.ToolStripMenuItem exportarErroresToolStripMenuItem;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 
     }
 }

@@ -12,10 +12,19 @@ namespace IDE.Archivo
         //Atributos
         private string Token;
         private string Tipo;
+        private int fila;
+        private int columna;
         public tokens(string token,string tipo)
         {
             this.Token = token;
             this.Tipo = tipo;
+        }
+        public tokens(string token, string tipo,int fila,int columna)
+        {
+            this.Token = token;
+            this.Tipo = tipo;
+            this.fila = fila;
+            this.columna = columna;
         }
 
         //Metodos Get 
@@ -29,5 +38,16 @@ namespace IDE.Archivo
         {
             return this.Tipo;
         }
+        //Devuelve la fila del token
+        public int getFila()
+        {
+            return this.fila;
+        }
+        //Devuelve la columna del token
+        public int getColumna()
+        {
+            return this.columna;
+        }
+
     }
 }

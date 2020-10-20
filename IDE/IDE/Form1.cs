@@ -159,27 +159,21 @@ namespace IDE
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
                         break;
+                    case "Reservada":
+                        rtbCodigo.SelectionColor = Color.Lime;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        break;
                     case "Error":
                         //Analiza las palabras reservadas
-                        if ((tokenmostrar.getToken().Equals("SI")) || (tokenmostrar.getToken().Equals("SINO"))
-                            || (tokenmostrar.getToken().Equals("SINO_SI")) || (tokenmostrar.getToken().Equals("MIENTRAS"))
-                            || (tokenmostrar.getToken().Equals("HACER")) || (tokenmostrar.getToken().Equals("DESDE"))
-                            || (tokenmostrar.getToken().Equals("HASTA")) || (tokenmostrar.getToken().Equals("INCREMENTO")))
-                        {
-                            rtbCodigo.SelectionColor = Color.Lime;
-                            rtbCodigo.AppendText(tokenmostrar.getToken());
-                            rtbCodigo.AppendText(" ");
-                        }
-                        else
-                        {
-                            //Errores encontrados
-                            rtbCodigo.SelectionColor = Color.Yellow;
-                            rtbCodigo.AppendText(tokenmostrar.getToken());
-                            rtbErrores.AppendText(contadorErrores + ". Error en caracter: " + tokenmostrar.getToken());
-                            contadorErrores++;
-                            rtbCodigo.AppendText(" ");
-                            rtbErrores.AppendText(Environment.NewLine);
-                        }
+                        //Errores encontrados
+                        rtbCodigo.SelectionColor = Color.Yellow;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbErrores.AppendText(contadorErrores + ". Error en caracter: " + tokenmostrar.getToken() + " en fila: "
+                            + tokenmostrar.getFila() + " y en columna: " + tokenmostrar.getColumna());
+                        contadorErrores++;
+                        rtbCodigo.AppendText(" ");
+                        rtbErrores.AppendText(Environment.NewLine);
                         break;
                     case "Enter":
                         rtbCodigo.SelectionColor = Color.White;
@@ -231,10 +225,10 @@ namespace IDE
         private void rtbCodigo_Click(object sender, EventArgs e)
         {
             //Obtiene la posicion
-            int posicion= rtbCodigo.SelectionStart;
+            int posicion = rtbCodigo.SelectionStart;
             //Obtiene linea y columna de la posicion
-            int linea = rtbCodigo.GetLineFromCharIndex(posicion)+1;
-            int columna = posicion - rtbCodigo.GetFirstCharIndexOfCurrentLine()+1;
+            int linea = rtbCodigo.GetLineFromCharIndex(posicion) + 1;
+            int columna = posicion - rtbCodigo.GetFirstCharIndexOfCurrentLine() + 1;
             //Imprime la linea y columna
             lbnumlinea.Text = linea.ToString();
             lbnumColumna.Text = columna.ToString();
@@ -271,6 +265,24 @@ namespace IDE
         private void rtbCodigo_KeyPress(object sender, KeyPressEventArgs e)
         {
             rtbCodigo.SelectionColor = Color.White;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //Variables para el contenido y la ubicacion del archivo
+            String filePath = string.Empty;
+            //Filtro del filedialog
+            openFileDialog1.Filter = "gt files (*.gt)|*.gt";
+            //If para abrir el archivo
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //Ruta del archivo
+                filePath = openFileDialog1.FileName;
+                //Elimina el archivo
+                File.Delete(filePath);
+                MessageBox.Show("Proyecto eliminado correctamente");
+                this.Text = "IDE - Mencode " + openFileDialog1.FileName;
+            }
         }
     }
 }
