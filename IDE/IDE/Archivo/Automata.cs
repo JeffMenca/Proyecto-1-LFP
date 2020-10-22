@@ -1108,8 +1108,11 @@ namespace IDE.Archivo
                 case 17:
                 case 21:
                 case 40:
-                case 42:
                     tokenNuevo = new tokens(token, "Booleano");
+                    listaTokens.Add(tokenNuevo);
+                    break;
+                case 42:
+                    tokenNuevo = new tokens(token, "ID");
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 100:

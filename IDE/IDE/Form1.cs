@@ -194,6 +194,11 @@ namespace IDE
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
                         break;
+                    case "ID":
+                        rtbCodigo.SelectionColor = Color.BlanchedAlmond;
+                        rtbCodigo.AppendText(tokenmostrar.getToken());
+                        rtbCodigo.AppendText(" ");
+                        break;
                     case "Operador Aritmetico":
                         rtbCodigo.SelectionColor = Color.Blue;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
