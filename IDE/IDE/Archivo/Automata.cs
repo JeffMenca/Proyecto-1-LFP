@@ -139,7 +139,9 @@ namespace IDE.Archivo
                                 break;
                             case ',':
                                 tokenGenerado += tokenPorAnalizar;
-                                setEstado(43);
+                                insertarTokens(tokenGenerado, 43);
+                                setEstado(0);
+                                tokenGenerado = "";
                                 break;
                             case '{':
                             case '}':
@@ -1058,18 +1060,7 @@ namespace IDE.Archivo
                                 break;
                         }
                         break;
-                    //Token para ,
-                    case 43:
-                        switch (tokenPorAnalizar)
-                        {
-                            default:
-                                insertarTokens(tokenGenerado, getEstado());
-                                tokenGenerado = "";
-                                i = i - 1;
-                                setEstado(0);
-                                break;
-                        }
-                        break;
+
                     //Token para {}
                     case 44:
                         switch (tokenPorAnalizar)
@@ -1112,6 +1103,7 @@ namespace IDE.Archivo
                             case '}':
                             case ';':
                             case '"':
+                            case ',':
                                 insertarTokens(tokenGenerado, getEstado());
                                 tokenGenerado = "";
                                 i = i - 1;
@@ -1244,7 +1236,14 @@ namespace IDE.Archivo
                         }
                     }
                     else
+                        
+                    {
                         tokenNuevo = new tokens(token, "Error", fila, (columna - columnaAux) + 1);
+                        if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                        {
+                            tokenNuevo.setTipo("Error");
+                        }
+                    }
 
                     listaTokens.Add(tokenNuevo);
                     break;

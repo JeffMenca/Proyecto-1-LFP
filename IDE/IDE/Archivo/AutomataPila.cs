@@ -23,9 +23,9 @@ namespace IDE.Archivo
             while (true)
             {
                 string peek = (string)pilas.Peek();
+                Console.WriteLine(token.getToken());
                 switch (peek)
                 {
-
                     case "A":
                         {
                             if (token.getToken().Equals("principal"))
@@ -46,7 +46,8 @@ namespace IDE.Archivo
                             if ((token.getToken().Equals("entero")) || (token.getToken().Equals("decimal")) || (token.getToken().Equals("cadena"))
                                 || (token.getToken().Equals("booleano")) || (token.getToken().Equals("caracter")) || (token.getToken().Equals("SI"))
                                 || (token.getToken().Equals("imprimir")) || (token.getToken().Equals("leer")) || (token.getToken().Equals("MIENTRAS"))
-                                || (token.getToken().Equals("HACER")) || (token.getToken().Equals("DESDE")) || (token.getTipo().Equals("ID")))
+                                || (token.getToken().Equals("HACER")) || (token.getToken().Equals("DESDE")) || (token.getTipo().Equals("Comentario")) ||
+                                (token.getTipo().Equals("ID")))
                             {
                                 pilas.Pop();
                                 pilas.Push("}");
@@ -61,13 +62,30 @@ namespace IDE.Archivo
                     case "L":
                         {
                             if ((token.getToken().Equals("entero")) || (token.getToken().Equals("decimal")) || (token.getToken().Equals("cadena"))
-                                || (token.getToken().Equals("booleano")) || (token.getToken().Equals("caracter")) || (token.getToken().Equals("SI"))
-                                || (token.getToken().Equals("imprimir")) || (token.getToken().Equals("leer")) || (token.getToken().Equals("MIENTRAS"))
-                                || (token.getToken().Equals("HACER")) || (token.getToken().Equals("DESDE")) || (token.getToken().Equals("imprimir")))
+                                || (token.getToken().Equals("booleano")) || (token.getToken().Equals("caracter")))
                             {
                                 pilas.Pop();
                                 pilas.Push("L");
                                 pilas.Push("D");
+                            }
+                            else if ((token.getToken().Equals("SI")) || (token.getToken().Equals("MIENTRAS"))
+                                || (token.getToken().Equals("HACER")) || (token.getToken().Equals("DESDE")))
+                            {
+                                pilas.Pop();
+                                pilas.Push("L");
+                                pilas.Push("F");
+                            }
+                            else if ((token.getTipo().Equals("Comentario")))
+                            {
+                                pilas.Pop();
+                                pilas.Push("L");
+                                pilas.Push(token.getToken());
+                            }
+                            else if ((token.getToken().Equals("leer")) || (token.getToken().Equals("imprimir")))
+                            {
+                                pilas.Pop();
+                                pilas.Push("L");
+                                pilas.Push("G");
                             }
                             else if ((token.getTipo().Equals("ID")))
                             {
@@ -102,9 +120,15 @@ namespace IDE.Archivo
                         }
                     case "Z'":
                         {
-                            if ((token.getTipo().Equals("Booleano")) || (token.getTipo().Equals("Texto")) || (token.getTipo().Equals("Caracter")))
+                            if ((token.getTipo().Equals("Booleano")) || (token.getTipo().Equals("Caracter")))
                             {
                                 pilas.Pop();
+                                pilas.Push(token.getTipo());
+                            }
+                            else if ((token.getTipo().Equals("Texto")))
+                            {
+                                pilas.Pop();
+                                pilas.Push("O'");
                                 pilas.Push(token.getTipo());
                             }
                             else if ((token.getTipo().Equals("ID")) || (token.getTipo().Equals("Entero")) || (token.getTipo().Equals("Decimal"))
@@ -179,6 +203,7 @@ namespace IDE.Archivo
                         }
                     case "P":
                         {
+                            Console.Write("|" + token.getToken() + "|");
                             if ((token.getToken().Equals("=")))
                             {
                                 pilas.Pop();
@@ -349,6 +374,8 @@ namespace IDE.Archivo
                             }
                             else
                             {
+                                pilas.Pop();
+                                pilas.Push("P");
                                 return false;
                             }
                             break;
@@ -361,7 +388,7 @@ namespace IDE.Archivo
                                 pilas.Push("I");
                                 pilas.Push(",");
                             }
-                            else if ((token.getTipo().Equals(";")))
+                            else if ((token.getToken().Equals(";")))
                             {
                                 pilas.Pop();
                             }
@@ -456,7 +483,7 @@ namespace IDE.Archivo
                                 pilas.Pop();
                                 pilas.Push("E'");
                                 pilas.Push("E");
-                                pilas.Push("S");
+                                pilas.Push("S'");
                                 pilas.Push(")");
                                 pilas.Push("V");
                                 pilas.Push("(");
@@ -474,7 +501,7 @@ namespace IDE.Archivo
                             else if ((token.getToken().Equals("HACER")))
                             {
                                 pilas.Pop();
-                                pilas.Push(")'");
+                                pilas.Push(")");
                                 pilas.Push("V");
                                 pilas.Push("(");
                                 pilas.Push("MIENTRAS");
@@ -521,7 +548,7 @@ namespace IDE.Archivo
                                 pilas.Push("X");
                                 pilas.Push("V'");
                             }
-                            else if ((token.getTipo().Equals("(")))
+                            else if ((token.getToken().Equals("(")))
                             {
                                 pilas.Pop();
                                 pilas.Push("X'");
@@ -593,7 +620,7 @@ namespace IDE.Archivo
                             {
                                 pilas.Pop();
                                 pilas.Push("}");
-                                pilas.Push("V");
+                                pilas.Push("L");
                                 pilas.Push("{");
                             }
                             else
@@ -638,6 +665,11 @@ namespace IDE.Archivo
                                 pilas.Push("(");
                                 pilas.Push("SINO_SI");
                             }
+                            else if ((token.getToken().Equals("}")))
+                            {
+                                pilas.Pop();
+                                pilas.Push("}");
+                            }
                             else
                             {
                                 return false;
@@ -657,8 +689,8 @@ namespace IDE.Archivo
                             else if ((token.getToken().Equals("SINO")))
                             {
                                 pilas.Pop();
-                                pilas.Push("SINO");
                                 pilas.Push("S'");
+                                pilas.Push("SINO");
                             }
                             else
                             {
@@ -721,10 +753,10 @@ namespace IDE.Archivo
                                 pilas.Push("Z'");
                                 pilas.Push("=");
                             }
-                            else if ((token.getToken().Equals("++")))
+                            else if ((token.getToken().Equals("++")) || (token.getToken().Equals("--")))
                             {
                                 pilas.Pop();
-                                pilas.Push("++");
+                                pilas.Push(token.getTipo());
                             }
                             else
                             {
