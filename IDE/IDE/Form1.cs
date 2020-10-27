@@ -101,6 +101,7 @@ namespace IDE
         {
             try
             {
+                analizarAutomata = new Automata();
                 //Analiza si el codigo esta vacio
                 if (!rtbCodigo.Text.Equals(""))
                 {
@@ -195,7 +196,7 @@ namespace IDE
                         rtbCodigo.AppendText(" ");
                         break;
                     case "ID":
-                        rtbCodigo.SelectionColor = Color.BlanchedAlmond;
+                        rtbCodigo.SelectionColor = Color.GreenYellow;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
                         rtbCodigo.AppendText(" ");
                         break;

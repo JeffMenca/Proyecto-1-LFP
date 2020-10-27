@@ -48,6 +48,11 @@ namespace IDE.Archivo
         {
             return this.columna;
         }
+        //setear tipo
+        public void setTipo(String tipo)
+        {
+            this.Tipo = tipo;
+        }
 
     }
 }

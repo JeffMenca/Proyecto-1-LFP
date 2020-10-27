@@ -12,8 +12,9 @@ namespace IDE.Archivo
     {
         //Variables de la clase
         private string[] tokens;
-        private int estado = 0, columna=1,columnaAux=1, fila=1;
+        private int estado = 0, columna = 1, columnaAux = 1, fila = 1;
         private Boolean enterTexto = false;
+        private AutomataPila sintaxis = new AutomataPila();
         ArrayList listaTokens = new ArrayList();
 
         //Metodos Get y set
@@ -135,6 +136,15 @@ namespace IDE.Archivo
                             case '_':
                                 tokenGenerado += tokenPorAnalizar;
                                 setEstado(41);
+                                break;
+                            case ',':
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(43);
+                                break;
+                            case '{':
+                            case '}':
+                                tokenGenerado += tokenPorAnalizar;
+                                setEstado(44);
                                 break;
                             default:
                                 tokenGenerado += tokenPorAnalizar;
@@ -978,7 +988,7 @@ namespace IDE.Archivo
                             case '"':
                                 insertarTokens(tokenGenerado, getEstado());
                                 tokenGenerado = "";
-                                i=i-1;
+                                i = i - 1;
                                 setEstado(0);
                                 break;
                             default:
@@ -1022,9 +1032,53 @@ namespace IDE.Archivo
                                 tokenGenerado = "";
                                 setEstado(0);
                                 break;
+                            case '+':
+                            case '-':
+                            case '*':
+                            case '/':
+                            case '!':
+                            case '>':
+                            case '<':
+                            case '=':
+                            case '(':
+                            case ')':
+                            case ';':
+                            case '"':
+                            case '{':
+                            case '}':
+                            case ',':
+                                insertarTokens(tokenGenerado, getEstado());
+                                tokenGenerado = "";
+                                i = i - 1;
+                                setEstado(0);
+                                break;
                             default:
                                 tokenGenerado += tokenPorAnalizar;
                                 setEstado(42);
+                                break;
+                        }
+                        break;
+                    //Token para ,
+                    case 43:
+                        switch (tokenPorAnalizar)
+                        {
+                            default:
+                                insertarTokens(tokenGenerado, getEstado());
+                                tokenGenerado = "";
+                                i = i - 1;
+                                setEstado(0);
+                                break;
+                        }
+                        break;
+                    //Token para {}
+                    case 44:
+                        switch (tokenPorAnalizar)
+                        {
+                            default:
+                                insertarTokens(tokenGenerado, getEstado());
+                                tokenGenerado = "";
+                                i = i - 1;
+                                setEstado(0);
                                 break;
                         }
                         break;
@@ -1054,6 +1108,8 @@ namespace IDE.Archivo
                             case '&':
                             case '(':
                             case ')':
+                            case '{':
+                            case '}':
                             case ';':
                             case '"':
                                 insertarTokens(tokenGenerado, getEstado());
@@ -1088,70 +1144,138 @@ namespace IDE.Archivo
         public void insertarTokens(String token, int estadoActual)
         {
             //Nuevo token
-            
+
             tokens tokenNuevo;
             switch (estadoActual)
             {
                 //Asignacion de token y tipo
                 case 1:
                     tokenNuevo = new tokens(token, "Entero");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 3:
                     tokenNuevo = new tokens(token, "Decimal");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 6:
                     tokenNuevo = new tokens(token, "Texto");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 17:
                 case 21:
                 case 40:
                     tokenNuevo = new tokens(token, "Booleano");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 42:
                     tokenNuevo = new tokens(token, "ID");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 100:
                     if ((token.Equals("SI")) || (token.Equals("SINO")) || (token.Equals("SINO_SI")) || (token.Equals("MIENTRAS"))
                             || (token.Equals("HACER")) || (token.Equals("DESDE") || (token.Equals("imprimir")) || (token.Equals("leer")))
-                            ||(token.Equals("HASTA")) || (token.Equals("PRINCIPAL"))
-                            ||(token.Equals("INCREMENTO")))
+                            || (token.Equals("HASTA")) || (token.Equals("principal"))
+                            || (token.Equals("INCREMENTO")))
+                    {
                         tokenNuevo = new tokens(token, "Reservada", fila, (columna - columnaAux) + 1);
+                        if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                        {
+                            tokenNuevo.setTipo("Error");
+                        }
+                    }
                     else if (token.Equals("entero"))
+                    {
                         tokenNuevo = new tokens(token, "Entero", fila, (columna - columnaAux) + 1);
+                        if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                        {
+                            tokenNuevo.setTipo("Error");
+                        }
+                    }
                     else if (token.Equals("decimal"))
+                    {
                         tokenNuevo = new tokens(token, "Decimal", fila, (columna - columnaAux) + 1);
+                        if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                        {
+                            tokenNuevo.setTipo("Error");
+                        }
+                    }
                     else if (token.Equals("cadena"))
+                    {
                         tokenNuevo = new tokens(token, "Texto", fila, (columna - columnaAux) + 1);
+                        if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                        {
+                            tokenNuevo.setTipo("Error");
+                        }
+                    }
                     else if (token.Equals("booleano"))
+                    {
                         tokenNuevo = new tokens(token, "Booleano", fila, (columna - columnaAux) + 1);
+                        if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                        {
+                            tokenNuevo.setTipo("Error");
+                        }
+                    }
                     else if (token.Equals("caracter"))
+                    {
                         tokenNuevo = new tokens(token, "Caracter", fila, (columna - columnaAux) + 1);
+                        if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                        {
+                            tokenNuevo.setTipo("Error");
+                        }
+                    }
                     else
                         tokenNuevo = new tokens(token, "Error", fila, (columna - columnaAux) + 1);
-                    
+
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 99:
-                    tokenNuevo = new tokens(token, "Entero");
+                    tokenNuevo = new tokens(token, "Enter");
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 10:
                     tokenNuevo = new tokens(token, "Caracter");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 28:
                 case 30:
                     tokenNuevo = new tokens(token, "Comentario");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 31:
                 case 32:
                     tokenNuevo = new tokens(token, "AsignacionFin");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 4:
@@ -1165,7 +1289,13 @@ namespace IDE.Archivo
                 case 37:
                 case 38:
                 case 39:
+                case 43:
+                case 44:
                     tokenNuevo = new tokens(token, "Operador Aritmetico");
+                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
+                    {
+                        tokenNuevo.setTipo("Error");
+                    }
                     listaTokens.Add(tokenNuevo);
                     break;
             }
