@@ -170,7 +170,7 @@ namespace IDE
                         //Errores encontrados
                         rtbCodigo.SelectionColor = Color.Yellow;
                         rtbCodigo.AppendText(tokenmostrar.getToken());
-                        rtbErrores.AppendText(contadorErrores + ". Error en caracter: " + tokenmostrar.getToken() + " en fila: "
+                        rtbErrores.AppendText(contadorErrores + ". Error en sentencia: " + tokenmostrar.getToken() + " en fila: "
                             + tokenmostrar.getFila() + " y en columna: " + tokenmostrar.getColumna());
                         contadorErrores++;
                         rtbCodigo.AppendText(" ");

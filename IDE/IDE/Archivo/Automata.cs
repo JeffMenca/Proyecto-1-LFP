@@ -1142,7 +1142,7 @@ namespace IDE.Archivo
             {
                 //Asignacion de token y tipo
                 case 1:
-                    tokenNuevo = new tokens(token, "Entero");
+                    tokenNuevo = new tokens(token, "Entero", fila, (columna - columnaAux) + 1);
                     if (sintaxis.analizarSintaxis(tokenNuevo) == false)
                     {
                         tokenNuevo.setTipo("Error");
@@ -1150,7 +1150,7 @@ namespace IDE.Archivo
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 3:
-                    tokenNuevo = new tokens(token, "Decimal");
+                    tokenNuevo = new tokens(token, "Decimal", fila, (columna - columnaAux) + 1);
                     if (sintaxis.analizarSintaxis(tokenNuevo) == false)
                     {
                         tokenNuevo.setTipo("Error");
@@ -1158,7 +1158,7 @@ namespace IDE.Archivo
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 6:
-                    tokenNuevo = new tokens(token, "Texto");
+                    tokenNuevo = new tokens(token, "Texto", fila, (columna - columnaAux) + 1);
                     if (sintaxis.analizarSintaxis(tokenNuevo) == false)
                     {
                         tokenNuevo.setTipo("Error");
@@ -1168,7 +1168,7 @@ namespace IDE.Archivo
                 case 17:
                 case 21:
                 case 40:
-                    tokenNuevo = new tokens(token, "Booleano");
+                    tokenNuevo = new tokens(token, "Booleano", fila, (columna - columnaAux) + 1);
                     if (sintaxis.analizarSintaxis(tokenNuevo) == false)
                     {
                         tokenNuevo.setTipo("Error");
@@ -1176,7 +1176,7 @@ namespace IDE.Archivo
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 42:
-                    tokenNuevo = new tokens(token, "ID");
+                    tokenNuevo = new tokens(token, "ID", fila, (columna - columnaAux) + 1);
                     if (sintaxis.analizarSintaxis(tokenNuevo) == false)
                     {
                         tokenNuevo.setTipo("Error");
@@ -1252,7 +1252,7 @@ namespace IDE.Archivo
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 10:
-                    tokenNuevo = new tokens(token, "Caracter");
+                    tokenNuevo = new tokens(token, "Caracter", fila, (columna - columnaAux) + 1);
                     if (sintaxis.analizarSintaxis(tokenNuevo) == false)
                     {
                         tokenNuevo.setTipo("Error");
@@ -1261,16 +1261,12 @@ namespace IDE.Archivo
                     break;
                 case 28:
                 case 30:
-                    tokenNuevo = new tokens(token, "Comentario");
-                    if (sintaxis.analizarSintaxis(tokenNuevo) == false)
-                    {
-                        tokenNuevo.setTipo("Error");
-                    }
+                    tokenNuevo = new tokens(token, "Comentario", fila, (columna - columnaAux) + 1);
                     listaTokens.Add(tokenNuevo);
                     break;
                 case 31:
                 case 32:
-                    tokenNuevo = new tokens(token, "AsignacionFin");
+                    tokenNuevo = new tokens(token, "AsignacionFin", fila, (columna - columnaAux) + 1);
                     if (sintaxis.analizarSintaxis(tokenNuevo) == false)
                     {
                         tokenNuevo.setTipo("Error");
@@ -1290,7 +1286,7 @@ namespace IDE.Archivo
                 case 39:
                 case 43:
                 case 44:
-                    tokenNuevo = new tokens(token, "Operador Aritmetico");
+                    tokenNuevo = new tokens(token, "Operador Aritmetico", fila, (columna - columnaAux) + 1);
                     if (sintaxis.analizarSintaxis(tokenNuevo) == false)
                     {
                         tokenNuevo.setTipo("Error");

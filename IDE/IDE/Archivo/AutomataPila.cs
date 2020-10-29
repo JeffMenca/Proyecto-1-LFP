@@ -11,6 +11,8 @@ namespace IDE.Archivo
     {
         //Atributos
         private Stack pilas = new Stack();
+        private int validacion = 0;
+        private string[] simbolo = new string[3];
         public AutomataPila()
         {
             pilas.Push("A");
@@ -20,10 +22,9 @@ namespace IDE.Archivo
         {
 
 
-            while (true)
+            while (pilas.Count != 0)
             {
                 string peek = (string)pilas.Peek();
-                Console.WriteLine(token.getToken());
                 switch (peek)
                 {
                     case "A":
@@ -37,6 +38,9 @@ namespace IDE.Archivo
                             }
                             else
                             {
+                                pilas.Pop();
+                                pilas.Push("B");
+                                pilas.Push("{");
                                 return false;
                             }
                             break;
@@ -55,6 +59,9 @@ namespace IDE.Archivo
                             }
                             else
                             {
+                                pilas.Pop();
+                                pilas.Push("}");
+                                pilas.Push("L");
                                 return false;
                             }
                             break;
@@ -93,13 +100,37 @@ namespace IDE.Archivo
                                 pilas.Push("L");
                                 pilas.Push("Z");
                             }
-                            else if (token.getToken().Equals("}"))
+                            else if (token.getToken().Equals("}") && (validacion == 0))
                             {
                                 pilas.Pop();
                             }
+                            else if (token.getToken().Equals("}") && (validacion != 0))
+                            {
+                                pilas.Pop();
+                                pilas.Push("L");
+                                pilas.Push("}");
+                                validacion--;
+                            }
                             else
                             {
-                                return false;
+                                if (token.getToken().Equals("{"))
+                                {
+                                    pilas.Push("}");
+                                    pilas.Push("L");
+                                    pilas.Push("{");
+                                }
+                                else if (token.getToken().Equals("("))
+                                {
+                                    pilas.Push(")");
+                                    pilas.Push("L");
+                                    pilas.Push("(");
+                                }
+                                else
+                                {
+                                    pilas.Pop();
+                                    pilas.Push("L");
+                                    return false;
+                                }
                             }
                             break;
                         }
@@ -665,6 +696,12 @@ namespace IDE.Archivo
                                 pilas.Push("(");
                                 pilas.Push("SINO_SI");
                             }
+                            else if ((token.getTipo().Equals("Comentario")))
+                            {
+                                pilas.Pop();
+                                pilas.Push("E");
+                                pilas.Push(token.getToken());
+                            }
                             else if ((token.getToken().Equals("}")))
                             {
                                 pilas.Pop();
@@ -760,6 +797,7 @@ namespace IDE.Archivo
                             }
                             else
                             {
+                                pilas.Pop();
                                 return false;
                             }
                             break;
@@ -804,19 +842,27 @@ namespace IDE.Archivo
 
                     default:
                         {
+
                             if (peek.Equals(token.getToken()) || peek.Equals(token.getTipo()))
                             {
+
                                 pilas.Pop();
                                 return true;
                             }
                             else
                             {
+                                if (token.getToken().Equals("{"))
+                                {
+                                    validacion++;
+                                }
                                 return false;
                             }
                             break;
                         }
                 }
+
             }
+            return true;
 
 
         }
