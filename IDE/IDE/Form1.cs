@@ -20,6 +20,8 @@ namespace IDE
         ManejadorArchivos manejadorArchivos = new ManejadorArchivos();
         Automata analizarAutomata = new Automata();
         ArrayList listaTokens = new ArrayList();
+        public static ArrayList listaNodos = new ArrayList();
+        private Boolean compilado = false;
         private int contadorErrores = 1;
         public Form1()
         {
@@ -101,6 +103,8 @@ namespace IDE
         {
             try
             {
+                compilado = true;
+                listaNodos.Clear();
                 analizarAutomata = new Automata();
                 //Analiza si el codigo esta vacio
                 if (!rtbCodigo.Text.Equals(""))
@@ -114,11 +118,13 @@ namespace IDE
                 else
                 {
                     MessageBox.Show("El codigo esta vacio o no es valido");
+                    compilado = false;
                 }
             }
             catch (Exception)
             {
                 MessageBox.Show("El codigo introducido no es valido");
+                compilado = false;
             }
         }
 
@@ -289,6 +295,24 @@ namespace IDE
                 MessageBox.Show("Proyecto eliminado correctamente");
                 this.Text = "IDE - Mencode " + openFileDialog1.FileName;
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+            if (compilado == true)
+                Graphviz.generarArbol(listaNodos);
+            else
+                MessageBox.Show("Debe compilar el codigo antes");
+        }
+
+        private void rtbCodigo_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }
