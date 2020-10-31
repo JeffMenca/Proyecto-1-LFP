@@ -114,52 +114,5 @@ public static class Graphviz
         {
             return Image.FromStream(stream);
         }
-    }
-
-    public static void generarArbol(ArrayList nodos)
-    {
-
-
-        //Crear carpeta
-        string path = @"..\Arboles Sintacticos";
-        string contenido2 = "";
-        if (!Directory.Exists(path))
-        {
-            DirectoryInfo di = Directory.CreateDirectory(path);
-        }
-
-        for (int i = 0; i < nodos.Count; i++)
-        {
-            Nodos nodo = (Nodos)nodos[i];
-            for (int j = 0; j < nodo.hijos.Count; j++)
-            {
-                if (nodo.getPadre().Equals(nodo.hijos[j]))
-                {
-                    contenido2 += "\"" + nodo.getPadre() + "\"" + "->" + "\"" + nodo.hijos[j] + j + "\"" + ";\n";
-                }
-                else
-                {
-                    contenido2 += "\"" + nodo.getPadre() + "\"" + "->" + "\"" + nodo.hijos[j] + "\"" + ";\n";
-                }
-
-
-            }
-        }
-        String inicio = "digraph G {";
-        string contenido1 = "{" +
-            "node [margin=0 fontcolor=white fontsize=12 shape=circle style=filled];\n" +
-             "}\n";
-        String final = "}";
-
-        string graphVizString = inicio + contenido1 + contenido2 + final;
-        Console.WriteLine(contenido2);
-        Bitmap bm = new Bitmap(Graphviz.RenderImage(graphVizString, "jpg"));
-        var imagen = new Bitmap(bm);
-        bm.Dispose();
-        Image image = (Image)imagen;
-        imagen.Save(path + @"\prueba.jpg", ImageFormat.Jpeg);
-        imagen.Dispose();
-        IDE.ImagenArbol foto = new IDE.ImagenArbol();
-        foto.Show();
-    }
+    } 
 }

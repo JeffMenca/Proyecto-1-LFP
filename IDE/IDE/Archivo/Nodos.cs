@@ -9,21 +9,47 @@ namespace IDE.Archivo
 {
     class Nodos
     {
-         //Atributos
-        private string padre;
+        //Atributos
+        private Nodos padre;
+        private string nombre;
+        private int nivel;
         public ArrayList hijos = new ArrayList();
-        public Nodos(string padre)
+        public Nodos(string nombre)
         {
+            this.nombre = nombre;
+        }
+        public Nodos(string nombre, Nodos padre, int nivel)
+        {
+            this.nombre = nombre;
             this.padre = padre;
+            this.nivel = nivel;
         }
 
-        public string getPadre()
+        //Metodos get
+        public string getNombre()
+        {
+            return this.nombre;
+        }
+        public Nodos getPadre()
         {
             return this.padre;
         }
+        public int getNivel()
+        {
+            return this.nivel;
+        }
+        public ArrayList getHijos()
+        {
+            return hijos;
+        }
+        //Metodos set
         public void agregarHijo(String hijo)
         {
             hijos.Add(hijo);
+        }
+        public void setNivel(int nivel)
+        {
+            this.nivel = nivel;
         }
 
     }

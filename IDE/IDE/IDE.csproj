@@ -67,12 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Archivo\Arbol.cs" />
     <Compile Include="Archivo\Automata.cs" />
     <Compile Include="Archivo\AutomataPila.cs" />
     <Compile Include="Archivo\Graphviz.cs" />
     <Compile Include="Archivo\ManejadorArchivos.cs" />
     <Compile Include="Archivo\Nodos.cs" />
-    <Compile Include="Archivo\Simbolos.cs" />
     <Compile Include="Archivo\tokens.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

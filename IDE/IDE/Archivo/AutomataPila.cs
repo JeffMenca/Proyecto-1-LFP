@@ -1053,7 +1053,7 @@ namespace IDE.Archivo
                             {
                                 pilas.Pop();
                                 pilas.Push("O'");
-                                nodo.agregarHijo("O");
+                                nodo.agregarHijo("O'");
                                 pilas.Push(token.getTipo());
                                 nodo.agregarHijo(token.getTipo());
                             }

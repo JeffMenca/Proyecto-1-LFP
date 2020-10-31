@@ -18,6 +18,7 @@ namespace IDE
     {
         //Variables 
         ManejadorArchivos manejadorArchivos = new ManejadorArchivos();
+        Arbol arbolSintactico;
         Automata analizarAutomata = new Automata();
         ArrayList listaTokens = new ArrayList();
         public static ArrayList listaNodos = new ArrayList();
@@ -297,22 +298,17 @@ namespace IDE
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-
+            //Comprueba si ya se compilo y genera el arbol
             if (compilado == true)
-                Graphviz.generarArbol(listaNodos);
+            {
+                //Genera el arbol
+                arbolSintactico = new Arbol(listaNodos);
+                arbolSintactico.generarArbol();
+            }
             else
                 MessageBox.Show("Debe compilar el codigo antes");
-        }
-
-        private void rtbCodigo_TextChanged(object sender, EventArgs e)
-        {
         }
     }
 }
