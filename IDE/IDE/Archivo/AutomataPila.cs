@@ -11,9 +11,9 @@ namespace IDE.Archivo
     {
         //Atributos
         private Stack pilas = new Stack();
-        private int validacion = 0;
+        private int validacion = 0, contadorV = 1;
         private string[] simbolo = new string[3];
-        
+
         public AutomataPila()
         {
             pilas.Push("A");
@@ -747,11 +747,11 @@ namespace IDE.Archivo
                             {
                                 pilas.Pop();
                                 pilas.Push("V'");
-                                nodo.agregarHijo("V'");
+                                nodo.agregarHijo("V' 1");
                                 pilas.Push("X");
                                 nodo.agregarHijo("X");
                                 pilas.Push("V'");
-                                nodo.agregarHijo("V'");
+                                nodo.agregarHijo("V' 2");
                             }
                             else if ((token.getToken().Equals("(")))
                             {
@@ -761,11 +761,11 @@ namespace IDE.Archivo
                                 pilas.Push(")");
                                 nodo.agregarHijo(")");
                                 pilas.Push("V'");
-                                nodo.agregarHijo("V'");
+                                nodo.agregarHijo("V' 1");
                                 pilas.Push("X");
                                 nodo.agregarHijo("X");
                                 pilas.Push("V'");
-                                nodo.agregarHijo("V'");
+                                nodo.agregarHijo("V' 2");
                                 pilas.Push("(");
                                 nodo.agregarHijo("(");
                             }
@@ -778,7 +778,17 @@ namespace IDE.Archivo
                         }
                     case "V'":
                         {
-                            Nodos nodo = new Nodos(peek);
+                            Nodos nodo;
+                            if (contadorV == 1)
+                            {
+                                nodo = new Nodos("V' 1");
+                                contadorV = 2;
+                            }
+                            else
+                            {
+                                nodo = new Nodos("V' 2");
+                                contadorV = 1;
+                            }
                             if ((token.getTipo().Equals("ID")) || (token.getTipo().Equals("Entero")) || (token.getTipo().Equals("Decimal"))
                                 || (token.getTipo().Equals("Texto")) || (token.getTipo().Equals("Booleano")))
                             {
