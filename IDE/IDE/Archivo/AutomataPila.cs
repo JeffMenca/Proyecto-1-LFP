@@ -1093,6 +1093,7 @@ namespace IDE.Archivo
                                 {
                                     validacion++;
                                 }
+                                pilas.Pop();
                                 return false;
                             }
                             break;
